@@ -164,15 +164,19 @@ def main():
         refresh_page(headline=f"Guess {guessID + 1}") #refresh our header
         show_guesses(guesses, word) #show all the gueses
         validWord = False
+        notGuessed = False
 
         #make sure the guess is a valid word, which also checks the input is the right length
         while not validWord:
             guesses[guessID] = input(f'\nGuess {guessID+1}: ').upper()
-            if guesses[guessID] in validWords:
-                validWord = True
-            else:
+            if guesses[guessID] not in validWords:
                 print("That's not a valid word. Try again")
-        
+                continue
+            if guesses[guessID] in guesses[:guessID]:
+                print("You've already guessed that word. Try again")
+                continue
+            validWord = True
+
         #if they guess the right word
         if guesses[guessID] == word:
             refresh_page(headline=f"Guess {guessID + 1}")
